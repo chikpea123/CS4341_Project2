@@ -7,9 +7,9 @@ import numpy as np
 ###########################MAGIC HAPPENS HERE##########################
 # Change the hyper-parameters to get the model performs well
 config = {
-    'batch_size': 50,
-    'image_size': (80,80),
-    'epochs': 5,
+    'batch_size': 64,
+    'image_size': (256,256),
+    'epochs': 10,
     'optimizer': keras.optimizers.experimental.SGD(1e-2)
 }
 ###########################MAGIC ENDS  HERE##########################
@@ -36,7 +36,7 @@ def data_processing(ds):
             ###########################MAGIC HAPPENS HERE##########################
             # Use dataset augmentation methods to prevent overfitting, 
             layers.RandomFlip("horizontal"),
-            layers.RandomRotation(0.35)
+            layers.RandomRotation(0.3)
             ###########################MAGIC ENDS HERE##########################
         ]
     )
@@ -55,9 +55,14 @@ def build_model(input_shape, num_classes):
     # Use Keras API like `x = layers.XXX()(x)`
     # Hint: Use a Deeper network (i.e., more hidden layers, different type of layers)
     # and different combination of activation function to achieve better result.
-    hidden_units = 128
+    hidden_units = 256
+    x = layers.Conv2D(32, (3,3), activation='relu', input_shape=(256,256,3))(x)
+    x = layers.MaxPooling2D(2,2)(x)
     x = layers.Conv2D(32, (3,3), activation='relu')(x)
     x = layers.MaxPooling2D(2,2)(x)
+    x = layers.Conv2D(32, (3,3), activation='relu')(x)
+    x = layers.MaxPooling2D(2,2)(x)
+    
     x = layers.Flatten()(x)
     x = layers.Dense(hidden_units, activation="relu")(x)
     
