@@ -7,9 +7,9 @@ import numpy as np
 ###########################MAGIC HAPPENS HERE##########################
 # Change the hyper-parameters to get the model performs well
 config = {
-    'batch_size': 64,
-    'image_size': (30,30),
-    'epochs': 20,
+    'batch_size': 50,
+    'image_size': (80,80),
+    'epochs': 5,
     'optimizer': keras.optimizers.experimental.SGD(1e-2)
 }
 ###########################MAGIC ENDS  HERE##########################
@@ -36,7 +36,7 @@ def data_processing(ds):
             ###########################MAGIC HAPPENS HERE##########################
             # Use dataset augmentation methods to prevent overfitting, 
             layers.RandomFlip("horizontal"),
-            layers.RandomRotation(0.3)
+            layers.RandomRotation(0.35)
             ###########################MAGIC ENDS HERE##########################
         ]
     )
@@ -49,15 +49,18 @@ def data_processing(ds):
 
 def build_model(input_shape, num_classes):
     inputs = keras.Input(shape=input_shape)
-
     x = layers.Rescaling(1./255)(inputs)
     ###########################MAGIC HAPPENS HERE##########################
     # Build up a neural network to achieve better performance.
     # Use Keras API like `x = layers.XXX()(x)`
-    # Hint: Deeper networks (i.e., more hidden layers) and a different activation
+    # Hint: Use a Deeper network (i.e., more hidden layers, different type of layers)
+    # and different combination of activation function to achieve better result.
+    hidden_units = 128
+    x = layers.Conv2D(32, (3,3), activation='relu')(x)
+    x = layers.MaxPooling2D(2,2)(x)
     x = layers.Flatten()(x)
-
-
+    x = layers.Dense(hidden_units, activation="relu")(x)
+    
     ###########################MAGIC ENDS HERE##########################
     outputs = layers.Dense(num_classes, activation="softmax", kernel_initializer='he_normal')(x)
     model = keras.Model(inputs, outputs)
@@ -90,7 +93,7 @@ if __name__ == '__main__':
     print("\nTest Accuracy: ", test_acc)
     test_images = np.concatenate([x for x, y in test_ds], axis=0)
     test_labels = np.concatenate([y for x, y in test_ds], axis=0)
-    test_prediction = np.argmax(model.predict(test_images),1)
+    test_prediction = np.argmax(model.predict(test_images), 1)
     # 1. Visualize the confusion matrix by matplotlib and sklearn based on test_prediction and test_labels
     # 2. Report the precision and recall for 10 different classes
     # Hint: check the precision and recall functions from sklearn package or you can implement these function by yourselves.
