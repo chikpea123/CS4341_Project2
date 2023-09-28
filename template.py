@@ -10,7 +10,7 @@ config = {
     'batch_size': 64,
     'image_size': (256,256),
     'epochs': 10,
-    'optimizer': keras.optimizers.experimental.SGD(1e-2)
+    'optimizer': 'adam'
 }
 ###########################MAGIC ENDS  HERE##########################
 
