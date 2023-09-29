@@ -1,5 +1,6 @@
 import tensorflow as tf
 from tensorflow import keras
+from sklearn.metrics import ConfusionMatrixDisplay
 from tensorflow.keras import layers
 import matplotlib.pyplot as plt
 import numpy as np
@@ -8,9 +9,9 @@ import numpy as np
 # Change the hyper-parameters to get the model performs well
 config = {
     'batch_size': 64,
-    'image_size': (128,128),
-    'epochs': 10,
-    'optimizer': keras.optimizers.experimental.SGD(1e-2)
+    'image_size': (224,224),
+    'epochs': 19,
+    'optimizer': 'adam'
 }
 ###########################MAGIC ENDS  HERE##########################
 
@@ -34,10 +35,9 @@ def data_processing(ds):
     data_augmentation = keras.Sequential(
         [
             ###########################MAGIC HAPPENS HERE##########################
-            # Use dataset augmentation methods to prevent overfitting, 
+            # Use dataset augmentation methods to prevent overfitting,
             layers.RandomFlip("horizontal"),
             layers.RandomRotation(0.3)
-
             ###########################MAGIC ENDS HERE##########################
         ]
     )
@@ -50,31 +50,26 @@ def data_processing(ds):
 
 def build_model(input_shape, num_classes):
     inputs = keras.Input(shape=input_shape)
-
     x = layers.Rescaling(1./255)(inputs)
     ###########################MAGIC HAPPENS HERE##########################
     # Build up a neural network to achieve better performance.
     # Use Keras API like `x = layers.XXX()(x)`
-    # Hint: Deeper networks (i.e., more hidden layers) and a different activation
-    hidden_units = 256
+    # Hint: Use a Deeper network (i.e., more hidden layers, different type of layers)
+    # and different combination of activation function to achieve better result.
+    hidden_units = 224
     x = layers.Conv2D(input_shape=(224,224,3),filters=64,kernel_size=(3,3),padding="same", activation="relu")(x)
-    x = layers.Conv2D(filters=64,kernel_size=(3,3),padding="same", activation="relu")(x)
+    x = layers.Conv2D(filters=32,kernel_size=(3,3),padding="same", activation="relu")(x)
+    x = layers.MaxPooling2D(pool_size=(2,2),strides=(2,2))(x)
+    x = layers.Conv2D(filters=64, kernel_size=(3,3), padding="same", activation="relu")(x)
+    x = layers.Conv2D(filters=64, kernel_size=(3,3), padding="same", activation="relu")(x)
     x = layers.MaxPooling2D(pool_size=(2,2),strides=(2,2))(x)
     x = layers.Conv2D(filters=128, kernel_size=(3,3), padding="same", activation="relu")(x)
     x = layers.Conv2D(filters=128, kernel_size=(3,3), padding="same", activation="relu")(x)
     x = layers.MaxPooling2D(pool_size=(2,2),strides=(2,2))(x)
     x = layers.Conv2D(filters=256, kernel_size=(3,3), padding="same", activation="relu")(x)
-    x = layers.Conv2D(filters=256, kernel_size=(3,3), padding="same", activation="relu")(x)
-    x = layers.Conv2D(filters=256, kernel_size=(3,3), padding="same", activation="relu")(x)
     x = layers.MaxPooling2D(pool_size=(2,2),strides=(2,2))(x)
-    # x = layers.MaxPooling2D(pool_size=(2,2),strides=(2,2))(x)
-    # x = layers.MaxPooling2D(pool_size=(2,2),strides=(2,2))(x)
-    # x = layers.MaxPooling2D(pool_size=(2,2),strides=(2,2))(x)
-    # x = layers.MaxPooling2D(pool_size=(2,2),strides=(2,2))(x)
-    # x = layers.MaxPooling2D(pool_size=(2,2),strides=(2,2))(x)
     x = layers.Flatten()(x)
-    x = layers.Dense(hidden_units, activation = 'relu')(x)
-
+    x = layers.Dense(hidden_units, activation='relu')(x)
 
     ###########################MAGIC ENDS HERE##########################
     outputs = layers.Dense(num_classes, activation="softmax", kernel_initializer='he_normal')(x)
@@ -109,6 +104,8 @@ if __name__ == '__main__':
     test_images = np.concatenate([x for x, y in test_ds], axis=0)
     test_labels = np.concatenate([y for x, y in test_ds], axis=0)
     test_prediction = np.argmax(model.predict(test_images),1)
+
+    
     # 1. Visualize the confusion matrix by matplotlib and sklearn based on test_prediction and test_labels
     # 2. Report the precision and recall for 10 different classes
     # Hint: check the precision and recall functions from sklearn package or you can implement these function by yourselves.
