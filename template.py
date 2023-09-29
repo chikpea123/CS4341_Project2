@@ -8,8 +8,8 @@ import numpy as np
 # Change the hyper-parameters to get the model performs well
 config = {
     'batch_size': 64,
-    'image_size': (30,30),
-    'epochs': 20,
+    'image_size': (128,128),
+    'epochs': 10,
     'optimizer': keras.optimizers.experimental.SGD(1e-2)
 }
 ###########################MAGIC ENDS  HERE##########################
@@ -37,6 +37,7 @@ def data_processing(ds):
             # Use dataset augmentation methods to prevent overfitting, 
             layers.RandomFlip("horizontal"),
             layers.RandomRotation(0.3)
+
             ###########################MAGIC ENDS HERE##########################
         ]
     )
@@ -55,7 +56,24 @@ def build_model(input_shape, num_classes):
     # Build up a neural network to achieve better performance.
     # Use Keras API like `x = layers.XXX()(x)`
     # Hint: Deeper networks (i.e., more hidden layers) and a different activation
+    hidden_units = 256
+    x = layers.Conv2D(input_shape=(224,224,3),filters=64,kernel_size=(3,3),padding="same", activation="relu")(x)
+    x = layers.Conv2D(filters=64,kernel_size=(3,3),padding="same", activation="relu")(x)
+    x = layers.MaxPooling2D(pool_size=(2,2),strides=(2,2))(x)
+    x = layers.Conv2D(filters=128, kernel_size=(3,3), padding="same", activation="relu")(x)
+    x = layers.Conv2D(filters=128, kernel_size=(3,3), padding="same", activation="relu")(x)
+    x = layers.MaxPooling2D(pool_size=(2,2),strides=(2,2))(x)
+    x = layers.Conv2D(filters=256, kernel_size=(3,3), padding="same", activation="relu")(x)
+    x = layers.Conv2D(filters=256, kernel_size=(3,3), padding="same", activation="relu")(x)
+    x = layers.Conv2D(filters=256, kernel_size=(3,3), padding="same", activation="relu")(x)
+    x = layers.MaxPooling2D(pool_size=(2,2),strides=(2,2))(x)
+    # x = layers.MaxPooling2D(pool_size=(2,2),strides=(2,2))(x)
+    # x = layers.MaxPooling2D(pool_size=(2,2),strides=(2,2))(x)
+    # x = layers.MaxPooling2D(pool_size=(2,2),strides=(2,2))(x)
+    # x = layers.MaxPooling2D(pool_size=(2,2),strides=(2,2))(x)
+    # x = layers.MaxPooling2D(pool_size=(2,2),strides=(2,2))(x)
     x = layers.Flatten()(x)
+    x = layers.Dense(hidden_units, activation = 'relu')(x)
 
 
     ###########################MAGIC ENDS HERE##########################
