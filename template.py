@@ -1,3 +1,4 @@
+# @title Default title text
 import tensorflow as tf
 from tensorflow import keras
 from sklearn.metrics import ConfusionMatrixDisplay, classification_report
@@ -59,7 +60,7 @@ def build_model(input_shape, num_classes):
     # Hint: Use a Deeper network (i.e., more hidden layers, different type of layers)
     # and different combination of activation function to achieve better result.
     hidden_units = 224
-    x = layers.Conv2D(input_shape=(224,224,3),filters=64,kernel_size=(3,3),padding="same", activation="relu")(x)
+    x = layers.Conv2D(input_shape=(224,224,3),filters=32,kernel_size=(3,3),padding="same", activation="relu")(x)
     x = layers.Conv2D(filters=32,kernel_size=(3,3),padding="same", activation="relu")(x)
     x = layers.MaxPooling2D(pool_size=(2,2),strides=(2,2))(x)
     x = layers.Conv2D(filters=64, kernel_size=(3,3), padding="same", activation="relu")(x)
@@ -98,12 +99,38 @@ def plot_misclassified_images(images, labels, predictions, num_images=3):
         plt.yticks([])
         plt.grid(False)
         plt.imshow(grayscale_image, cmap='gray')
-        plt.xlabel(f'True: {true_label}, Predicted: {predicted_label}')
+        plt.xlabel(f'True: {true_label}, Predicted: {predicted_label}', fontsize=20)
     
     plt.show()
 
 
+# Display the accuracy and loss during training
+def plot_accuracy_loss(history):
+  fig = plt.figure(figsize=(30,15))
+
+  # Plot accuracy
+  plt.subplot(5,10,1)
+  plt.plot(history.history['accuracy'], 'bo--', label="acc")
+  plt.plot(history.history['val_accuracy'], 'bo--', label="val_acc")
+  plt.title("train_acc vs val_acc", fontsize=14)
+  plt.ylabel("accuracy", fontsize=12)
+  plt.xlabel("epochs", fontsize=12)
+
+  plt.legend()
+
+  # Plot loss
+  plt.subplot(5,10,2)
+  plt.plot(history.history['loss'], 'bo--', label="loss")
+  plt.plot(history.history['val_loss'], 'bo--', label="val_loss")
+  plt.title("train_loss vs val_loss", fontsize=14)
+  plt.ylabel("loss", fontsize=12)
+  plt.xlabel("epochs", fontsize=12)
+
+  plt.legend()
+  plt.show()
+
 if __name__ == '__main__':
+    
     # Load and Process the dataset
     train_ds, val_ds, test_ds = read_data()
     train_ds = data_processing(train_ds)
@@ -122,16 +149,16 @@ if __name__ == '__main__':
         epochs=config['epochs'],
         validation_data=val_ds
     )
+    
     ###########################MAGIC HAPPENS HERE##########################
     print(history.history)
+    plot_accuracy_loss(history)
+    
     test_loss, test_acc = model.evaluate(test_ds, verbose=2)
     print("\nTest Accuracy: ", test_acc)
     test_images = np.concatenate([x for x, y in test_ds], axis=0)
     test_labels = np.concatenate([y for x, y in test_ds], axis=0)
     test_prediction = np.argmax(model.predict(test_images),1)
-    
-    #model = keras.models.load_model("77.8.h5")
-    model.save("new_sigmoid.h5")
 
     test_loss, test_acc = model.evaluate(test_ds, verbose=2)
     print("\nTest Accuracy: ", test_acc)
