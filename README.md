@@ -191,17 +191,21 @@ Include a section describing in more detail the most accurate model you were abl
 
 Include a confusion matrix, showing the results of testing the model on the test set. The matrix should be a 5-by-5 grid showing which categories of images were classified. Use your confusion matrix to additionally report precision and recall for each of the 5 classes, as well as the overall accuracy of your model.  
 
-*Insert Confusion Matrix Here*
+![Confusion_Matrix](outputs/Confusion_Matrix.png)
+
+![Prediction](outputs/Prediction.png)
 
 ### Training Performance Plot 
 
 For your best-performing ANN, include a plot showing how training accuracy and validation accuracy change over time during training. Graph number of training epochs (x-axis) versus training set and validation set accuracy (y-axis). Hence, your plot should contain two curves.  
 
-*Insert Training Performance Plot Here*
+![Training](outputs/Training.png)
 
 ### Visualization 
 
 Include 3 visualizations of images that were misclassified by your best-performing model and any observations about why you think these images were misclassified by your model. You will have to create or use a visualization program that takes a 30-by-30 matrix input and translate it into a black-and-white image. 
+
+![Misclassified](outputs/Misclassified.png)
 
 1. Image 1
 2. Image 2
