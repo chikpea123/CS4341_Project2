@@ -2,7 +2,7 @@
 Image classification using machine learning
 
 ### Model & Training Procedure Description 
-1. Test 1
+1. Test 1 (NOT DENSE ONLY)
     - Data preprocessing implementation (i.e, shuffle or rotate data) : 
         1) Flips -> Random flip horizontal 
         2) Rotations -> random rotation of 0.3
@@ -37,7 +37,7 @@ Image classification using machine learning
     - Accuracy you obtained in each of these experiments on the test set : 
         1) 24.06%
 
-2. Test 2
+2. Test 2 (NOT DENSE ONLY)
     - Data preprocessing implementation (i.e, shuffle or rotate data) : 
         1) Flip -> Random flip horizontal 
         2) Rotations -> random rotation of 0.3
@@ -73,7 +73,7 @@ Image classification using machine learning
     - Accuracy you obtained in each of these experiments on the test set : 
         1) 68.3%
 
-3. Test 3
+3. Test 3 (NOT DENSE ONLY)
     - Data preprocessing implementation (i.e, shuffle or rotate data) : 
         1) Flip -> Random flip horizontal 
         2) Rotations -> random rotation of 0.3
@@ -185,9 +185,6 @@ Image classification using machine learning
         1) 75.2%
 
 
-
-Include a confusion matrix, showing the results of testing the model on the test set. The matrix should be a 5-by-5 grid showing which categories of images were classified. Use your confusion matrix to additionally report precision and recall for each of the 5 classes, as well as the overall accuracy of your model.  
-
 ![Confusion_Matrix](outputs/Confusion_Matrix.png)
 
 ![Prediction](outputs/Prediction.png)
@@ -202,6 +199,6 @@ Include 3 visualizations of images that were misclassified by your best-performi
 
 ![Misclassified](outputs/Misclassified.png)
 
-1. Image 1
-2. Image 2
-3. Image 3
+1. Image 1 (Left) -> likely misclassified because
+2. Image 2 (Middle) -> 
+3. Image 3 (Right) -> 
