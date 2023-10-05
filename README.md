@@ -1,5 +1,7 @@
 # CS4341_Project2 Write Up
 Image classification using machine learning
+Link to this ReadMe on Github: https://github.com/chikpea123/CS4341_Project2/blob/main/README.md
+
 
 # Model & Training Procedure Description
 
