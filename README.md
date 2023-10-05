@@ -365,10 +365,10 @@ Link to this ReadMe on Github: https://github.com/chikpea123/CS4341_Project2/blo
 
 **Confusion Matrix**
 
-![Confusion_Matrix_CNN](outputs/Confusion_cnn.png)
+![Confusion_Matrix_CNN](outputs/Confusion_CNN.png)
 
 **Precision**
 
-![Precision_CNN](outputs/Precision_cnn.png)
+![Precision_CNN](outputs/Precision_CNN.png)
 
 
