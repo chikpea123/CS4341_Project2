@@ -23,8 +23,6 @@ Link to this ReadMe on Github: https://github.com/chikpea123/CS4341_Project2/blo
                  1 x Dense layer of 224 units with ReLu
                  1 x Dense Softmax layer of 5 units
 
-        3. Activation Function* 
-        - All convolutional layers utilize the ReLU activation function
     - Hyper-parameter value selection (i.e, the reshaped input image size, the type of optimizer, training epochs, and number of neurons or hidden_size or number of parameters, the loss function) :
         1. Number of Training Epochs -> 50 Epochs
         2. Reshaped Image Size -> (224, 224)
@@ -52,8 +50,6 @@ Link to this ReadMe on Github: https://github.com/chikpea123/CS4341_Project2/blo
                  1 x Dense layer of 16 units with ReLu
                  1 x Dense Softmax layer of 5 units
 
-            3. Activation Function* 
-            - All convolutional layers utilize the ReLU activation function
     - Hyper-parameter value selection (i.e, the reshaped input image size, the type of optimizer, training epochs, and number of neurons or hidden_size or number of parameters, the loss function) :
         1. Number of Training Epochs -> 100 Epochs
         2. Reshaped Image Size -> (30, 30)
@@ -79,8 +75,6 @@ Link to this ReadMe on Github: https://github.com/chikpea123/CS4341_Project2/blo
                  1 x Dense layer of 128 units with ReLu (kernel_regularizer=l2(0.003))
                  1 x Dense Softmax layer of 5 units
 
-        3. Activation Function* 
-        - All convolutional layers utilize the ReLU activation function
     - Hyper-parameter value selection (i.e, the reshaped input image size, the type of optimizer, training epochs, and number of neurons or hidden_size or number of parameters, the loss function) :
         1. Number of Training Epochs -> 100 Epochs
         2. Reshaped Image Size -> (60, 60)
@@ -89,7 +83,7 @@ Link to this ReadMe on Github: https://github.com/chikpea123/CS4341_Project2/blo
         5. Loss Function -> 'SparseCategoricalCrossentropy'
     - Accuracy you obtained in each of these experiments on the test set : **56.3%**
 
-4. Best Model
+4. Test 4
     - Data preprocessing (same as previous)
     - ANN architectures (i.e, number of layers, number of neurons in each layer, type of activation function) :
         1. Number of layers -> 9
@@ -106,8 +100,6 @@ Link to this ReadMe on Github: https://github.com/chikpea123/CS4341_Project2/blo
                  1 x Dense layer of 128 units with ReLu (kernel_regularizer=l2(0.003))
                  1 x Dense Softmax layer of 5 units
 
-        3. Activation Function* 
-        - All convolutional layers utilize the ReLU activation function
     - Hyper-parameter value selection (i.e, the reshaped input image size, the type of optimizer, training epochs, and number of neurons or hidden_size or number of parameters, the loss function) :
         1. Number of Training Epochs -> 150 Epochs
         2. Reshaped Image Size -> (60, 60)
@@ -116,6 +108,32 @@ Link to this ReadMe on Github: https://github.com/chikpea123/CS4341_Project2/blo
         5. Loss Function -> 'SparseCategoricalCrossentropy'
     - Accuracy you obtained in each of these experiments on the test set : **58.3%**
 
+5. Test 5 (Best Model)
+    - Data preprocessing (same as previous)
+    - ANN architectures (i.e, number of layers, number of neurons in each layer, type of activation function) :
+        1. Number of layers -> 9
+        2. Number of neurons by layer
+            
+                 1 x input layer
+                 1 x rescaling layer
+                 1 x Flatten layer
+
+                 1 x Dense layer of 4096 units with ReLu
+                 1 x Dense layer of 2048 units with ReLu
+                 1 x Dense layer of 2048 units with ReLu
+                 1 x Dense layer of 512 units with ReLu
+                 1 x Dense layer of 256 units with ReLu (kernel_regularizer=l2(0.003))
+                 1 x Dense Softmax layer of 5 units
+
+    - Hyper-parameter value selection (i.e, the reshaped input image size, the type of optimizer, training epochs, and number of neurons or hidden_size or number of parameters, the loss function) :
+        1. Number of Training Epochs -> 150 Epochs
+        2. Reshaped Image Size -> (60, 60)
+        3. Type of Optimizer -> Utilized the 'sgd' optimizer
+        4. Number of Neurons -> 8965 hidden units
+        5. Loss Function -> 'SparseCategoricalCrossentropy'
+    - Accuracy you obtained in each of these experiments on the test set : **60.3%**
+    - PS. We used ModelCheckPoint call back functions to save the model with best "val_accuracy" value during training process. 
+    - Our training model final result has a 58.3% accuracy but the best model saved during training had an accuracy of 60.3%.
 
 ## Convolutional Neural Network (Additional experiments)
 1. Test 1 (CNN)
@@ -278,37 +296,32 @@ Link to this ReadMe on Github: https://github.com/chikpea123/CS4341_Project2/blo
 # Fully connected neural network model (Dense layers only)
 
 ## Model Performance & Confusion Matrix 
-1. Best Model
-    - Data preprocessing
-        1. Flip -> Random flip horizontal and vertical
-        2. Rotation -> Random rotation of 0.15
-        3. Zoom -> Random zoom of -0.15 to 0 for both width and height
-        4. Translation -> Random translation of -0.15 to 0.15 for both width and height
+1. (Best Model)
+    - Data preprocessing (same as previous)
     - ANN architectures (i.e, number of layers, number of neurons in each layer, type of activation function) :
         1. Number of layers -> 9
         2. Number of neurons by layer
-
+            
                  1 x input layer
                  1 x rescaling layer
                  1 x Flatten layer
-                 
+
                  1 x Dense layer of 4096 units with ReLu
                  1 x Dense layer of 2048 units with ReLu
                  1 x Dense layer of 2048 units with ReLu
                  1 x Dense layer of 512 units with ReLu
-                 1 x Dense layer of 128 units with ReLu (kernel_regularizer=l2(0.003))
+                 1 x Dense layer of 256 units with ReLu (kernel_regularizer=l2(0.003))
                  1 x Dense Softmax layer of 5 units
 
-        3. Activation Function* 
-        - All convolutional layers utilize the ReLU activation function
     - Hyper-parameter value selection (i.e, the reshaped input image size, the type of optimizer, training epochs, and number of neurons or hidden_size or number of parameters, the loss function) :
         1. Number of Training Epochs -> 150 Epochs
         2. Reshaped Image Size -> (60, 60)
-        3. Type of Optimizer -> Utilized the 'sgd' optimizer because it has a higher learning rate than adam (better performance too)
-        4. Number of Neurons -> 8837 hidden units
-        5. Loss Function -> 'SparseCategoricalCrossentropy' 
-    - Accuracy you obtained in each of these experiments on the test set : **58.3%**
-
+        3. Type of Optimizer -> Utilized the 'sgd' optimizer
+        4. Number of Neurons -> 8965 hidden units
+        5. Loss Function -> 'SparseCategoricalCrossentropy'
+    - Accuracy you obtained in each of these experiments on the test set : **60.3%**
+    - PS. We used ModelCheckPoint call back functions to save the model with best "val_accuracy" value during training process. 
+    - Our training model final result has a 58.3% accuracy but the best model saved during training had an accuracy of 60.3%.
 **Confusion Matrix**
 
 ![Confusion_Matrix](outputs/Confusion_Matrix.png)
@@ -325,9 +338,9 @@ Link to this ReadMe on Github: https://github.com/chikpea123/CS4341_Project2/blo
 
 ![Misclassified](outputs/Misclassified.png)
 
-    1. Image 1 (Left) -> likely misclassified the tulips as a daisy due to the perspective of the flowers in the image being from the bottom up
-    2. Image 2 (Middle) -> likely misclassified the tulips as a daisy due to the organization of the flowers in the picture (bunched up)
-    3. Image 3 (Right) -> likely misclassified the dandelion as a sunflower due to the perspective of the flower being from the bottom up, making its silhouette similar to a sunflower 
+    1. Image 1 (Left) -> likely misclassified the tulips as a dandelion due to the zoom of the flower
+    2. Image 2 (Middle) -> likely misclassified the roses as a daisy due to the organization of the flowers in the picture (bunched up)
+    3. Image 3 (Right) -> likely misclassified the tulips as a daisy due to the color being similarity between two flowers
 
 
 # Convolutional Neural Network model

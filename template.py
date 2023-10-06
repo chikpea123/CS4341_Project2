@@ -1,3 +1,4 @@
+#RMSProp
 # @title Default title text
 import tensorflow as tf
 from tensorflow import keras
@@ -6,12 +7,13 @@ from tensorflow.keras import layers
 from tensorflow.keras.regularizers import l1, l2
 import matplotlib.pyplot as plt
 import numpy as np
+from tensorflow.keras.callbacks import EarlyStopping, ModelCheckpoint
 
 ###########################MAGIC HAPPENS HERE##########################
 # Change the hyper-parameters to get the model performs well
 config = {
     'batch_size': 64,
-    'image_size': (60, 60),
+    'image_size': (60,60),
     'epochs': 150,
     'optimizer': 'sgd'
 }
@@ -34,15 +36,15 @@ def read_data():
     return train_ds, val_ds, test_ds
 
 def data_processing(ds):
-    ds = ds.shuffle(5000)
+    ds = ds.shuffle(3000)
     data_augmentation = keras.Sequential(
         [
             ###########################MAGIC HAPPENS HERE##########################
             # Use dataset augmentation methods to prevent overfitting,
             layers.RandomFlip("horizontal_and_vertical"),
             layers.RandomRotation(0.3),
-            layers.RandomZoom((-0.3, 0), (-0.3, 0)),
-            layers.RandomTranslation((-0.2, 0.2), (-0.2, 0.2))
+            layers.RandomZoom((-0.15, 0), (-0.15, 0)),
+            layers.RandomTranslation((-0.15, 0.15), (-0.15, 0.15))
             ###########################MAGIC ENDS HERE##########################
         ]
     )
@@ -61,13 +63,15 @@ def build_model(input_shape, num_classes):
     # Use Keras API like `x = layers.XXX()(x)`
     # Hint: Use a Deeper network (i.e., more hidden layers, different type of layers)
     # and different combination of activation function to achieve better result.
+    #hidden_units = 224
 
     x = layers.Flatten()(x)
+    
     x = layers.Dense(4096, activation='relu')(x)
     x = layers.Dense(2048, activation='relu')(x)
     x = layers.Dense(2048, activation='relu')(x)
-    x = layers.Dense(512, activation='relu')(x)
-    x = layers.Dense(128, activation='relu', kernel_regularizer=l2(0.003))(x)
+    x = layers.Dense(1024, activation='relu')(x)
+    x = layers.Dense(256, activation='relu', kernel_regularizer=l2(0.003))(x)
     ###########################MAGIC ENDS HERE##########################
     outputs = layers.Dense(num_classes, activation="softmax", kernel_initializer='he_normal')(x)
     model = keras.Model(inputs, outputs)
@@ -77,9 +81,6 @@ def build_model(input_shape, num_classes):
 
 # Display the misclassified images
 def plot_misclassified_images(images, labels, predictions, num_images=3):
-    misclassified_indices = np.where(test_prediction != test_labels)[0]
-    np.random.shuffle(misclassified_indices)
-
     figsize = (30, 30)
     fig = plt.figure(figsize=figsize)
 
@@ -140,11 +141,19 @@ if __name__ == '__main__':
         loss='SparseCategoricalCrossentropy',
         metrics=["accuracy"],
     )
+
+    checkpoint = ModelCheckpoint("best_model.h5",
+                             monitor='val_accuracy',  # Monitor validation accuracy
+                             verbose=1,
+                             save_best_only=True,  # Save only the best model
+                             mode='max')
+    
     # Fit the model with training dataset
     history = model.fit(
         train_ds,
         epochs=config['epochs'],
-        validation_data=val_ds
+        validation_data=val_ds,
+        callbacks=[checkpoint]
     )
 
     ###########################MAGIC HAPPENS HERE##########################
@@ -157,6 +166,7 @@ if __name__ == '__main__':
     test_labels = np.concatenate([y for x, y in test_ds], axis=0)
     test_prediction = np.argmax(model.predict(test_images),1)
 
+    #model.save("new1.h5")
     # 1. Visualize the confusion matrix by matplotlib and sklearn based on test_prediction and test_labels
     ConfusionMatrixDisplay.from_predictions(test_labels, test_prediction)
     plt.show()
@@ -167,4 +177,10 @@ if __name__ == '__main__':
 
     # 3. Visualize three misclassified images
     # Hint: Use the test_images array to generate the misclassified images using matplotlib
+    misclassified_indices = np.where(test_prediction != test_labels)[0]
+
+    # Shuffle the misclassified indices to get random misclassified images
+    np.random.shuffle(misclassified_indices)
+
+    # Display three random misclassified images
     plot_misclassified_images(test_images, test_labels, test_prediction, num_images=3)
