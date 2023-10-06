@@ -2,6 +2,12 @@
 Image classification using machine learning
 Link to this ReadMe on Github: https://github.com/chikpea123/CS4341_Project2/blob/main/README.md
 
+Link to our best models:
+1. Model using only dense layers (please change image to size=60,60 for testing):
+https://drive.google.com/file/d/1C6LApjCWFp5dCFzoBLi_WkfKSArug91Q/view?usp=sharing
+2. Model using CNN (please change image to size size=224,224 for testing):
+https://drive.google.com/file/d/1u8rI1t8FysyNR5N18Q1i3kCbo9u_i1VT/view?usp=sharing
+
 
 # Model & Training Procedure Description
 
@@ -131,9 +137,9 @@ Link to this ReadMe on Github: https://github.com/chikpea123/CS4341_Project2/blo
         3. Type of Optimizer -> Utilized the 'sgd' optimizer
         4. Number of Neurons -> 8965 hidden units
         5. Loss Function -> 'SparseCategoricalCrossentropy'
-    - Accuracy you obtained in each of these experiments on the test set : **60.3%**
+    - Accuracy you obtained in each of these experiments on the test set : **60.15%**
     - PS. We used ModelCheckPoint call back functions to save the model with best "val_accuracy" value during training process. 
-    - Our training model final result has a 58.3% accuracy but the best model saved during training had an accuracy of 60.3%.
+    - Our training model final result has a 58.3% accuracy but the best model saved during training had an accuracy of 60.15%.
 
 ## Convolutional Neural Network (Additional experiments)
 1. Test 1 (CNN)
@@ -319,9 +325,9 @@ Link to this ReadMe on Github: https://github.com/chikpea123/CS4341_Project2/blo
         3. Type of Optimizer -> Utilized the 'sgd' optimizer
         4. Number of Neurons -> 8965 hidden units
         5. Loss Function -> 'SparseCategoricalCrossentropy'
-    - Accuracy you obtained in each of these experiments on the test set : **60.3%**
+    - Accuracy you obtained in each of these experiments on the test set : **60.15%**
     - PS. We used ModelCheckPoint call back functions to save the model with best "val_accuracy" value during training process. 
-    - Our training model final result has a 58.3% accuracy but the best model saved during training had an accuracy of 60.3%.
+    - Our training model final result has a 58.3% accuracy but the best model saved during training had an accuracy of 60.15%.
 **Confusion Matrix**
 
 ![Confusion_Matrix](outputs/Confusion_Matrix.png)
